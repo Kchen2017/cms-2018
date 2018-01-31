@@ -1,9 +1,7 @@
 //引入Vue
 import Vue from 'vue';
 
-//引入axios
-import Axios from "axios";
-Vue.prototype.$ajax = Axios;
+
 
 //引入自己的组件
 import App from "./app.vue";
@@ -15,6 +13,7 @@ import NewsList from "./components/news/newsList.vue";
 import NewsDetail from "./components/news/newsDetail.vue";
 import PicShare from "./components/pic/share.vue";
 import PicDetail from "./components/pic/detail.vue";
+import GoodsList from "./components/goods/goodsList.vue";
 
 //自定义子组件
 import NavBar from './components/common/navBar.vue';
@@ -57,7 +56,8 @@ router.addRoutes([
 	{name: "newsList", path: "/news/list", component: NewsList},
 	{name: "newsDetail", path: "/news/detail/:newsId", component: NewsDetail},
 	{name: "picShare", path: "/pic/share", component: PicShare},
-	{name: "picDetail", path: "/pic/detail", component: PicDetail}
+	{name: "picDetail", path: "/pic/detail", component: PicDetail},
+	{name: "goodsList", path: "/goods/list", component: GoodsList}
 ]);
 
 //引入自己的css
@@ -74,10 +74,39 @@ Vue.filter("transTime", (val) => {
 import Comment from "./components/common/comment.vue";
 Vue.component("comment", Comment);
 
+
 //安装vue-preview 羽浏览图片
 import VuePreView from "vue-preview";
 Vue.use(VuePreView);
+//安装Qs插件
+import Qs from "qs";
+Vue.prototype.$qs = Qs;
 
+//引入axios
+import Axios from "axios";
+Vue.prototype.$ajax = Axios;
+
+//配置拦截器，设置loading图标
+// Axios.interceptors.request.use(function (config) {
+// 	MintUi.Indicator.open({
+// 	  text: 'Loading...',
+// 	  spinnerType: 'fading-circle'
+// 	});
+
+//     return config;
+//   }, function (error) {
+
+//     return Promise.reject(error);
+//   });
+ 
+
+// Axios.interceptors.response.use(function (response) {
+// 	MintUi.Indicator.close();
+//     return response;
+//   }, function (error) {
+
+//     return Promise.reject(error);
+//   });
 
 new Vue({
 	router,

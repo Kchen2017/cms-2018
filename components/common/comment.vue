@@ -5,34 +5,30 @@
                 <li class="photo-comment">
                     <div>
                         <span>提交评论</span>
-                        <span><a >返回</a></span>
+                        <span @click="goback">返回</span>
                     </div>
                 </li>
                 <li class="txt-comment">
-                    <textarea></textarea>
+                    <textarea v-model="newCom"></textarea>
                 </li>
                 <li>
-                    发表评论按钮
+                    <mt-button type="danger" size="large" plain @click="sendComment">发表评论</mt-button>
                 </li>
                 <li class="photo-comment">
                     <div>
                         <span>评论列表</span>
-                        <span>44条评论</span>
+                        <span>{{num}}条评论</span>
                     </div>
                 </li>
             </ul>
             <ul class="comment-list">
-                <li>
-                    匿名用户1：大家好 2014-01-04
+                <li v-for="(item, index) in contents" :key="index">
+                    {{item.user_name}}：{{item.content}} {{item.add_time|transTime}}
                 </li>
-                <li>
-                    匿名用户1：大家好 2014-01-04
-                </li>
-                <li>
-                    匿名用户1：大家好 2014-01-04
-                </li>
+               
             </ul>
-            加载更多按钮
+            <!-- <button @click="loadMore">加载更多按钮</button> -->
+            <mt-button type="danger" size="large" plain @click="loadMore">加载更多{{pageindex}}</mt-button>
         </div>
     </div>
 </template>
@@ -41,12 +37,78 @@
 export default {
     data(){
         return {
-           pageindex: 0,
-        }
+           pageindex: 1,
+           contents: [{
+                user_name: "一直在游泳的鱼",
+                add_time: "2017-12-21T20:09:30",
+                content: "麻痹的"
+           },{
+                user_name: "一直在游泳的鱼",
+                add_time: "2017-12-21T20:09:30",
+                content: "麻痹的"
+           },{
+                user_name: "一直在游泳的鱼",
+                add_time: "2017-12-21T20:09:30",
+                content: "麻痹的"
+           },{
+                user_name: "一直在游泳的鱼",
+                add_time: "2017-12-21T20:09:30",
+                content: "麻痹的"
+           }],
+           num: 0,
+           newCom: ""
+        } 
     },
     props: ["imgId"],
+    watch: {
+        contents: function(val, od) {
+            this.num = this.contents.length;
+        }
+    },
     created(){
-        this.$ajax.get(this.$httpConfig.getcomments + this.imgId + "?pageindex=" + this.pageindex);
+        this.num = this.contents.length;
+        this.$ajax.get(this.$httpConfig.getcomments + this.imgId + "?pageindex=" + this.pageindex++)
+        .then(res => {
+            this.contents = res.data.message;
+        })
+    },
+    methods: {
+        loadMore(){
+            this.contents.push({
+                user_name: "一直在游泳的鱼",
+                add_time: "2017-12-21T20:09:30",
+                content: "麻痹的"
+           });
+            this.firSend();
+        },
+        sendComment(){
+            this.$ajax.post(this.$httpConfig.postcomment + this.imgId, {
+                content: this.newCom
+            }, {
+                transformRequest: function(data){
+                    return this.$qs.stringify(data);
+                }
+            })
+            .then(res => {
+                this.pageindex = 1;
+                this.firSend();
+            })
+            .catch(err => {
+                console.log("提交失败！！", err);
+            });
+        },
+        goback(){
+            this.$router.go(-1);
+        },
+        firSend(){
+             this.$ajax.get(this.$httpConfig.getcomments + this.imgId + "?pageindex=" + this.pageindex++)
+            .then(res => {
+                this.contents = res.data.message;
+            })
+             .catch(err => {
+                console.log("获取失败！！", err);
+            });
+        }
     }
 }
 </script>

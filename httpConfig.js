@@ -7,8 +7,9 @@ const config = {
 	getImgCategory: remoteHost + "/api/getimgcategory",
 	getthumimages: remoteHost + "/api/getthumimages/",
 	getimageInfo: remoteHost + "/api/getimageInfo/",
-	getcomments: remoteHost + "/api/getcomments/"
-
+	getcomments: remoteHost + "/api/getcomments/",
+	postcomment: remoteHost + "/api/postcomment/",
+	getgoods: remoteHost + "/api/getgoods?pageindex=",
 };
 
 export default config;
