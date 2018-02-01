@@ -1,31 +1,34 @@
 <template>
-    <div class="tmpl">
-        <nav-bar title="商品列表"></nav-bar>
-        <ul class="mui-table-view mui-grid-view">
-            <li class="mui-table-view-cell mui-media mui-col-xs-6" v-for="good in goods" :key="good.id">
-                <a>
-                    <img class="mui-media-object" :src="good.img_url">
-                    <div class="mui-media-body">{{good.title}}</div>
-                    <div class="desc">
-                        <div class="sell">
-                            <span>￥{{good.market_price}}</span>
-                            <s>￥{{good.sell_price}}</s>
-                        </div>
-                        <div class="detail">
-                            <div class="hot">
-                                热卖中
+    <div class="tmpl" :style="{height: divHeight + 'px'}">
+        <nav-bar title="商品列表" ref="nav"></nav-bar>
+        <mt-loadmore :top-method="loadTop" :bottom-method="loadBottom" :bottom-all-loaded="allLoaded" @bottom-status-change="handleBottomChange" ref="loadmore" :auto-fill="isAutoFill">
+            <ul class="mui-table-view mui-grid-view">
+                <li class="mui-table-view-cell mui-media mui-col-xs-6" v-for="good in goods" :key="good.id">
+                    <a>
+                        <img class="mui-media-object" :src="good.img_url">
+                        <div class="mui-media-body">{{good.title}}</div>
+                        <div class="desc">
+                            <div class="sell">
+                                <span>￥{{good.market_price}}</span>
+                                <s>￥{{good.sell_price}}</s>
                             </div>
-                            <div class="count">
-                                剩{{good.stock_quantity}}件
+                            <div class="detail">
+                                <div class="hot">
+                                    热卖中
+                                </div>
+                                <div class="count">
+                                    剩{{good.stock_quantity}}件
+                                </div>
                             </div>
                         </div>
-                    </div>
-                </a>
-            </li>
-        </ul>
+                    </a>
+                </li>
+            </ul>
+        </mt-loadmore>
     </div>
 </template>
 <script>
+import VueBus from "../common/vueBus.js";
 export default {
     data(){
         return {
@@ -180,18 +183,52 @@ export default {
                 sell_price: 2195,
                 market_price: 2289,
                 stock_quantity:100
-            }]
+            }],
+            allLoaded: false,
+            isAutoFill: false,
+            divHeight: 0
         }
     },
     created(){
-        this.$ajax.get(this.$httpConfig.getgoods + this.pageindex)
+        this.$ajax.get(this.$httpConfig.getgoods + this.pageindex++)
         .then(res => {
             this.goods = res.data.message;
         })
         .catch(err => {
             console.log("获取失败", err);
         })
-    }
+    },
+    methods: {
+        loadTop(){
+            console.log("下拉");
+        },
+        loadBottom(){
+            this.$ajax.get(this.$httpConfig.getgoods + this.pageindex++)
+            .then(res => {
+                this.goods.concat(res.data.message);
+                if(res.data.message.length !=10 ){
+                    this.allLoaded = true;
+                }
+                this.$refs.loadmore.onBottomLoaded();
+            })
+            .catch(err => {
+                this.$refs.loadmore.onBottomLoaded();
+                console.log("获取失败", err);
+            })
+            // 
+        },
+        handleBottomChange(s){
+            console.log(s);
+        },
+       
+    },
+     mounted(){
+            console.log(1);
+            VueBus.$emit("getNavHeight", (h) => {
+                this.divHeight = document.documentElement.clientHeight - h - this.$refs.nav.$el.offsetHeight;
+                console.log(this.divHeight);
+            })
+        }
 }
 </script>
 <style scoped>

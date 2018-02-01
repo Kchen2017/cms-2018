@@ -4,7 +4,7 @@
         <mt-header title="Kchen的信息系统"></mt-header>
         <router-view></router-view>
         <!-- 固定底部 -->
-        <nav class="mui-bar mui-bar-tab">
+        <nav class="mui-bar mui-bar-tab" ref="navBar">
 			<router-link :to="{name: 'home'}" class="mui-tab-item " href="#tabbar">
 				<span class="mui-icon icon-icon-test"></span>
 				<span class="mui-tab-label">首页</span>
@@ -25,11 +25,17 @@
     </div>
 </template>
 <script>
+import VueBus from "./components/common/vueBus.js";
 export default {
     data() {
         return {
 
         }
+    },
+    created(){
+    	VueBus.$on("getNavHeight",(fn) => {
+    		fn(this.$refs.navBar.offsetHeight);
+    	});
     }
 }
 </script>

@@ -13,7 +13,7 @@
             <ul>
                 <li v-for="img in imgs" :key="img.id"> 
                     <router-link :to="{name: 'picDetail', query: {imgId: img.id}}">
-                        <img :src="img.img_url">
+                        <img v-lazy="img.img_url">
                         <p>
                             <span>{{img.title}}</span>
                             <br>
@@ -32,17 +32,37 @@
                 imgs: [{
                     id: 33,
                     title: "kkkkkkkk",
-                    img_url: "http://c.hiphotos.baidu.com/image/pic/item/c9fcc3cec3fdfc0380b079f3df3f8794a5c226b4.jpg",
+                    img_url: "https://timgsa.baidu.com/timg?image&quality=80&size=b9999_10000&sec=1517407863422&di=4d345b0be8d3ae7941ae0ece0b2c4b40&imgtype=0&src=http%3A%2F%2Fpic15.nipic.com%2F20110804%2F2112294_095310106000_2.jpg",
                     zhaiyao: "气质"
                 },{
                     id: 34,
                     title: "kkkkkkkk",
-                    img_url: "http://f.hiphotos.baidu.com/image/pic/item/503d269759ee3d6db032f61b48166d224e4ade6e.jpg",
+                    img_url: "https://timgsa.baidu.com/timg?image&quality=80&size=b9999_10000&sec=1517408014458&di=239a6a70a7a6cd0b5d7f2515d18e12c5&imgtype=0&src=http%3A%2F%2Fimg5.xiazaizhijia.com%2Fwalls%2F20160708%2F1440x900_2f172c09d079701.jpg",
                     zhaiyao: "气质"
                 },{
                     id: 73,
                     title: "kkkkkkkk",
-                    img_url: "http://f.hiphotos.baidu.com/image/pic/item/503d269759ee3d6db032f61b48166d224e4ade6e.jpg",
+                    img_url: "https://timgsa.baidu.com/timg?image&quality=80&size=b9999_10000&sec=1517408014458&di=3f8825807ac365acbfac2d03ca1a634f&imgtype=0&src=http%3A%2F%2Fit.southcn.com%2F9%2Fimages%2Fattachement%2Fjpg%2Fsite4%2F20110627%2F90fba609f5ed0f7233764a.jpg",
+                    zhaiyao: "气质"
+                },{
+                    id: 35,
+                    title: "kkkkkkkk",
+                    img_url: "https://timgsa.baidu.com/timg?image&quality=80&size=b9999_10000&sec=1517408014457&di=95096a4e48e3168ef0eeda28cff70fcb&imgtype=0&src=http%3A%2F%2Fpic10.photophoto.cn%2F20090310%2F0036036851540683_b.jpg",
+                    zhaiyao: "气质"
+                },{
+                    id: 36,
+                    title: "kkkkkkkk",
+                    img_url: "https://timgsa.baidu.com/timg?image&quality=80&size=b9999_10000&sec=1517408014457&di=d3ceb70767f4ee57b89373b8bb13263a&imgtype=0&src=http%3A%2F%2Fimg.taopic.com%2Fuploads%2Fallimg%2F120516%2F159400-1205161Z51633.jpg",
+                    zhaiyao: "气质"
+                },{
+                    id: 37,
+                    title: "kkkkkkkk",
+                    img_url: "https://timgsa.baidu.com/timg?image&quality=80&size=b9999_10000&sec=1517408014457&di=cb893904b6a4c9c11228ae83870b6b21&imgtype=0&src=http%3A%2F%2Fpic.yesky.com%2FuploadImages%2F2015%2F215%2F43%2F84K8MQ5DWP2G.jpg",
+                    zhaiyao: "气质"
+                },{
+                    id: 38,
+                    title: "kkkkkkkk",
+                    img_url: "https://timgsa.baidu.com/timg?image&quality=80&size=b9999_10000&sec=1517408014456&di=d5c91c318cb7cf5bb4e1ea86415fbe79&imgtype=0&src=http%3A%2F%2Fimg2.ph.126.net%2F6wkyl1CdBWaGjnh6fnHGRA%3D%3D%2F6631814334096086804.jpg",
                     zhaiyao: "气质"
                 }],
                 category: [{
@@ -97,6 +117,14 @@
     }
 </script>
 <style>
+
+image[lazy=loading] {
+  width: 40px;
+  height: 300px;
+  margin: auto;
+}
+
+
 .photo-header li {
     list-style: none;
     display: inline-block;
