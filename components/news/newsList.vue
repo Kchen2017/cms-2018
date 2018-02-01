@@ -15,7 +15,7 @@
                 </a>
             </li> -->
             <li class="mui-table-view-cell mui-media" v-for="item in news" :key="item.id">
-                <router-link :to="{name: 'newsDetail', params: {newsId: item.id}}">
+                <router-link :to="{name: 'newsDetail', params: {newsId: item.id, navTitle: '新闻详情'}}">
                     <img class="mui-media-object mui-pull-left" :src="item.img_url">
                     <div class="mui-media-body">
                         <span>{{item.title}}</span>

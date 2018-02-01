@@ -1,12 +1,6 @@
 router-link<template>
     <div>
-    	<div>
-			<mt-swipe :auto="4000">
-			  <mt-swipe-item><img src="/static/img/1.jpg" alt=""></mt-swipe-item>
-			  <mt-swipe-item><img src="/static/img/2.jpg" alt=""></mt-swipe-item>
-			  <mt-swipe-item><img src="/static/img/3.jpg" alt=""></mt-swipe-item>
-			</mt-swipe>
-    	</div>
+    	<my-swip :myimgs="message"></my-swip>
         <div>
             <ul class="mui-table-view mui-grid-view mui-grid-9">
                 <li class="mui-table-view-cell mui-media mui-col-xs-4 mui-col-sm-3"><router-link :to="{name: 'newsList'}">
@@ -35,13 +29,19 @@ router-link<template>
 export default {
     data() {
         return {
-        	message: []
+        	message: [{
+                    src: "https://ss1.bdstatic.com/70cFuXSh_Q1YnxGkpoWK1HF6hhy/it/u=3878847766,3988120331&fm=200&gp=0.jpg"
+                },{
+                    src: "https://timgsa.baidu.com/timg?image&quality=80&size=b9999_10000&sec=1517468528528&di=8cffe85b28b66f5c6ba38bf2697381fe&imgtype=0&src=http%3A%2F%2Fpic.jj20.com%2Fup%2Fallimg%2F811%2F0525141A139%2F1405251A139-0.jpg"
+                },{
+                    src: "https://timgsa.baidu.com/timg?image&quality=80&size=b9999_10000&sec=1517468528525&di=082a03f61e1c813fe11bf77b6d22d299&imgtype=0&src=http%3A%2F%2Fimage.tianjimedia.com%2FuploadImages%2F2015%2F215%2F41%2FM68709LC8O6L.jpg"
+                }]
         }
     },
     created(){
     	this.$ajax.get(this.$httpConfig.lunbo)
     	.then((res) => {
-    		console.log(res);
+    		this.message = res.data.message;
     	}).catch((err) => {
     		console.log(err);
     	});
@@ -49,13 +49,7 @@ export default {
 }
 </script>
 <style scoped>
-    .mint-swipe .mint-swipe-item img {
-        height: 100%;
-        width: 100%;
-    }
-	.mint-swipe {
-        max-height: 187px;
-    }
+    
 
     /*去除九宫格上面margin*/
 

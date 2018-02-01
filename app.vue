@@ -14,7 +14,7 @@
 				<span class="mui-tab-label">会员</span>
 			</router-link>
 			<router-link :to="{name: 'goodsCar'}" class="mui-tab-item" href="#tabbar-with-contact">
-				<span class="mui-icon icon-gouwuche"><span class="mui-badge">9</span></span>
+				<span class="mui-icon icon-gouwuche"><span class="mui-badge" v-text="numGoods"></span></span>
 				<span class="mui-tab-label">购物车</span>
 			</router-link>
 			<router-link :to="{name: 'search'}" class="mui-tab-item" href="#tabbar-with-map">
@@ -29,13 +29,16 @@ import VueBus from "./components/common/vueBus.js";
 export default {
     data() {
         return {
-
+        	numGoods: 0
         }
     },
     created(){
     	VueBus.$on("getNavHeight",(fn) => {
     		fn(this.$refs.navBar.offsetHeight);
     	});
+    	VueBus.$on("addCarNum", (num) => {
+    		this.numGoods += num;
+    	})
     }
 }
 </script>

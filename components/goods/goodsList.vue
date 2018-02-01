@@ -4,7 +4,7 @@
         <mt-loadmore :top-method="loadTop" :bottom-method="loadBottom" :bottom-all-loaded="allLoaded" @bottom-status-change="handleBottomChange" ref="loadmore" :auto-fill="isAutoFill">
             <ul class="mui-table-view mui-grid-view">
                 <li class="mui-table-view-cell mui-media mui-col-xs-6" v-for="good in goods" :key="good.id">
-                    <a>
+                    <router-link :to="{name: 'goodDetail', params: {goodId: good.id}}">
                         <img class="mui-media-object" :src="good.img_url">
                         <div class="mui-media-body">{{good.title}}</div>
                         <div class="desc">
@@ -21,7 +21,7 @@
                                 </div>
                             </div>
                         </div>
-                    </a>
+                    </router-link>
                 </li>
             </ul>
         </mt-loadmore>

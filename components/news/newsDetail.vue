@@ -1,6 +1,6 @@
 <template>
     <div class="tmpl">
-        <nav-bar title="图文详情"></nav-bar>
+        <nav-bar :title="$route.params.navTitle"></nav-bar>
         <div class="news-title">
             <p v-text="info.title"></p>
             <div>

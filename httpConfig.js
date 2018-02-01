@@ -10,6 +10,9 @@ const config = {
 	getcomments: remoteHost + "/api/getcomments/",
 	postcomment: remoteHost + "/api/postcomment/",
 	getgoods: remoteHost + "/api/getgoods?pageindex=",
+	getdesc: remoteHost + "/api/goods/getdesc/",
+	getinfo: remoteHost + "/api/goods/getinfo/",
+	getshopcarlist: remoteHost + "/api/goods/getshopcarlist/"
 };
 
 export default config;
