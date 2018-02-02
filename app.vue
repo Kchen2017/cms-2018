@@ -26,10 +26,11 @@
 </template>
 <script>
 import VueBus from "./components/common/vueBus.js";
+import ProdutsTools from "./components/common/produtsTools.js";
 export default {
     data() {
         return {
-        	numGoods: 0
+        	numGoods: ProdutsTools.totleCount()
         }
     },
     created(){

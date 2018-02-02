@@ -22,8 +22,8 @@
                 </li>
             </ul>
         </div>
-        <transition name="ball">
-            <div class="ball"></div>
+        <transition name="ball" v-on:after-enter="afterEnter">
+            <div class="ball" v-if="isShow"></div>
         </transition>
         <div class="product-props">
             <ul>
@@ -67,7 +67,8 @@
                 },{
                     src: "https://timgsa.baidu.com/timg?image&quality=80&size=b9999_10000&sec=1517468528525&di=082a03f61e1c813fe11bf77b6d22d299&imgtype=0&src=http%3A%2F%2Fimage.tianjimedia.com%2FuploadImages%2F2015%2F215%2F41%2FM68709LC8O6L.jpg"
                 }],
-                count: 0
+                count: 0,
+                isShow : false
             }
         },
         created(){
@@ -111,6 +112,11 @@
                     id: this.content.id,
                     num: this.count
                 });
+
+                this.isShow = true;
+            },
+            afterEnter(el){
+                this.isShow = false;
             }
         }
     }
@@ -235,9 +241,9 @@
     width: 24px;
     height: 24px;
     position: absolute;
-    top: 440px;
+    top: 400px;
     left: 120px;
     display: inline-block;
-    z-index: 9999;
+    z-index: -1;
 }
 </style>

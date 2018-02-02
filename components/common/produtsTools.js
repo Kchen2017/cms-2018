@@ -20,6 +20,19 @@ let produtsTools = {
     },
     save(produts){
         locals.setItem("produts", JSON.stringify(produts));
+    },
+    totleCount(){
+        let produts = this.getproduts();
+        let sum = 0;
+        for(let key in produts){
+            sum += produts[key];
+        }
+        return sum;
+
+    },
+    delSto(id){
+        let produts = this.getproduts();
+        delete produts[id];
     }
 }
 

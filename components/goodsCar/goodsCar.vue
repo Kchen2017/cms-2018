@@ -1,18 +1,19 @@
 <template>
-    <div>
+    <div class="tmpl">
+        <nav-bar title="购物车"></nav-bar>
         <div class="pay-detail">
             <ul>
-                <li class="p-list" v-for="info in infos" :key="info.id">
-                    <mt-switch></mt-switch>
+                <li class="p-list" v-for="(info, index) in infos" :key="info.id">
+                    <mt-switch v-model="info.status"></mt-switch>
                     <img :src="info.thumb_path">
                     <div class="pay-calc">
                         <p>{{info.title}}</p>
                         <div class="calc">
                             <span>￥{{info.price}}</span>
-                            <span @click="subNum">-</span>
-                            <span>{{info.cou}}</span>
-                            <span @click="addNum">+</span>
-                            <a href="javascript:;">删除</a>
+                            <span @click="subNum(index)">-</span>
+                            <span>{{info.count}}</span>
+                            <span @click="addNum(index)">+</span>
+                            <a href="javascript:;" @click="del(index)">删除</a>
                         </div>
                     </div>
                 </li>
@@ -21,7 +22,7 @@
         <div class="show-price">
             <div class="show-1">
                 <p>总计(不含运费):</p>
-                <span>已经选择商品1件，总价￥888元</span>
+                <span>已经选择商品{{byChange.totleCount}}件，总价￥{{byChange.totalPrice}}元</span>
             </div>
             <div class="show-2">
                 <mt-button type="danger" size="large">去结算</mt-button>
@@ -39,24 +40,35 @@
                     id: 87,
                     title: "华为顶顶顶顶",
                     sell_price: 6466,
+                    count: 2,
+                    status: true,
                     thumb_path: "http://img2.imgtn.bdimg.com/it/u=1567211408,3977725624&fm=27&gp=0.jpg"
                 },{
                     cou: 1,
                     id: 88,
                     title: "华为顶顶顶顶",
                     sell_price: 6466,
+                    count: 2,
+                    status: true,
                     thumb_path: "http://img2.imgtn.bdimg.com/it/u=1567211408,3977725624&fm=27&gp=0.jpg"
                 }]
             }
         },
         methods: {
-             subNum(){
-                if(this.count >0){
-                     this.count--;
+             subNum(id){
+                if(this.infos[id].count >0){
+                     this.infos[id].count--;
                 }               
             },
-            addNum(){
-                this.count++;
+            addNum(id){
+                this.infos[id].count++;
+            },
+            del(id){
+                if(confirm("真的要删除么？")){
+                    this.infos.splice(id, 1);
+                    ProdutsTools.delSto(this.infos[id].id);
+                }
+                
             }
         },
         created(){
@@ -65,8 +77,35 @@
             this.$ajax.get(this.$httpConfig.getshopcarlist + ids)
             .then(res => {
                 this.infos = res.data.message;
+                this.infos.forEach((ele) => {
+                    this.$set(ele, "count", Produts[ele.id]);
+                    this.$set(ele, "status", true);
+                })
             })
-           
+            .catch(err => {
+                console.log("获取失败！！！",err);
+            })           
+        },
+        computed:{
+            byChange(){
+                let totleCount = 0;
+                let totalPrice = 0;
+                this.infos.forEach(ele => {
+                    if(ele.status){
+                        totleCount ++;
+                        totalPrice += ele.sell_price * ele.count;
+                    }
+                })
+
+                return {totleCount, totalPrice};
+            }
+        },
+        beforeRouteLeave(to, from, next){
+            if(confirm("真的要离开么？")){
+                next();
+            }else{
+                next(false);
+            }
         }
     }
 </script>
