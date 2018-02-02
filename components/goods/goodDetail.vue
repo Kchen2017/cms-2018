@@ -47,6 +47,7 @@
 </template>
 <script>
     import VueBus from "../common/vueBus.js";
+    import ProdutsTools from "../common/produtsTools.js";
     export default {
         data(){
             return {
@@ -105,6 +106,11 @@
             },
             addshopCar(){
                 VueBus.$emit("addCarNum", this.count);
+
+                ProdutsTools.addOrUpdate({
+                    id: this.content.id,
+                    num: this.count
+                });
             }
         }
     }

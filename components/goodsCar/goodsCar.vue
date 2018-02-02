@@ -2,16 +2,16 @@
     <div>
         <div class="pay-detail">
             <ul>
-                <li class="p-list">
+                <li class="p-list" v-for="info in infos" :key="info.id">
                     <mt-switch></mt-switch>
-                    <img src="">
+                    <img :src="info.thumb_path">
                     <div class="pay-calc">
-                        <p>商品标题</p>
+                        <p>{{info.title}}</p>
                         <div class="calc">
-                            <span>￥777</span>
-                            <span>-</span>
-                            <span>1</span>
-                            <span>+</span>
+                            <span>￥{{info.price}}</span>
+                            <span @click="subNum">-</span>
+                            <span>{{info.cou}}</span>
+                            <span @click="addNum">+</span>
                             <a href="javascript:;">删除</a>
                         </div>
                     </div>
@@ -30,6 +30,45 @@
     </div>
 </template>
 <script>
+    import ProdutsTools from "../common/produtsTools.js";
+    export default {
+        data(){
+            return {
+                infos: [{
+                    cou: 1,
+                    id: 87,
+                    title: "华为顶顶顶顶",
+                    sell_price: 6466,
+                    thumb_path: "http://img2.imgtn.bdimg.com/it/u=1567211408,3977725624&fm=27&gp=0.jpg"
+                },{
+                    cou: 1,
+                    id: 88,
+                    title: "华为顶顶顶顶",
+                    sell_price: 6466,
+                    thumb_path: "http://img2.imgtn.bdimg.com/it/u=1567211408,3977725624&fm=27&gp=0.jpg"
+                }]
+            }
+        },
+        methods: {
+             subNum(){
+                if(this.count >0){
+                     this.count--;
+                }               
+            },
+            addNum(){
+                this.count++;
+            }
+        },
+        created(){
+            let Produts = ProdutsTools.getproduts();
+            let ids = Object.keys(Produts).join(',');
+            this.$ajax.get(this.$httpConfig.getshopcarlist + ids)
+            .then(res => {
+                this.infos = res.data.message;
+            })
+           
+        }
+    }
 </script>
 <style scoped>
 .pay-detail ul li {
